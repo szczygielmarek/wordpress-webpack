@@ -1,15 +1,18 @@
+const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     
-    entry: "./assets/src/index.js",
+    entry: {
+        main: "./assets/src/index.js",
+        home: "./assets/src/components/home/home.js"
+    },
     output: {
         path: path.resolve(__dirname, 'assets/dist'),
-        filename: "scripts.js"
+        filename: "[name].js"
     },
-    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -62,8 +65,15 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['assets/dist']),
         new MiniCssExtractPlugin({
-            filename: "styles.css"
+            filename: "[name].css"
+        }),
+        new webpack.ProvidePlugin({
+            '$' : 'jquery',
+            jQuery: 'jquery'
         })
-    ]
+    ],
+    externals: {
+        jquery: 'jQuery'
+    }
 
 }
